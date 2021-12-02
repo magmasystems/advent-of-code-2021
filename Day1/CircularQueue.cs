@@ -20,7 +20,7 @@ namespace AdventOfCode2021
         {
             if (this.Count == this._capacity)
             {
-                preDequeueAction?.Invoke(_queue); 
+                preDequeueAction?.Invoke(this._queue); 
                 this.Dequeue();
             }
 
