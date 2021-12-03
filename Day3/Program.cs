@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode2021
@@ -45,8 +44,8 @@ namespace AdventOfCode2021
             
             for (var col = 0; col < numColumns; col++)
             {
-                GetRowsWithZerosAndOnes(oxy, col, out IList<int> rowsWithOnes, out IList<int> rowsWithZeros);
-                RemoveRowsUsingIndexes(oxy, rowsWithOnes.Count >= rowsWithZeros.Count ? rowsWithZeros : rowsWithOnes);
+                var mask = GetRowsWithZerosAndOnes(oxy, col, out var numOnes, out var numZeros);
+                RemoveRowsUsingIndexes(oxy, mask, numOnes < numZeros);
 
                 if (oxy.Count == 1)
                 {
@@ -57,9 +56,10 @@ namespace AdventOfCode2021
             
             for (var col = 0; col < numColumns; col++)
             {
-                GetRowsWithZerosAndOnes(co2, col, out IList<int> rowsWithOnes, out IList<int> rowsWithZeros);
+                var mask = GetRowsWithZerosAndOnes(co2, col, out var numOnes, out var numZeros);
+                
                 // Determine the least common value (0 or 1) in the current bit position, and keep only numbers with that bit in that position. 
-                RemoveRowsUsingIndexes(co2, rowsWithZeros.Count > rowsWithOnes.Count ? rowsWithZeros : rowsWithOnes);
+                RemoveRowsUsingIndexes(co2, mask, numZeros <= numOnes);
 
                 if (co2.Count == 1)
                 {
@@ -72,28 +72,35 @@ namespace AdventOfCode2021
             Console.WriteLine($"Oxy Scrubbing Rating is {oxyRating}, CO2 Scrubbing Rating is {co2Rating}, Multiplied is {oxyRating * co2Rating}");
         }
 
-        private static void GetRowsWithZerosAndOnes(IReadOnlyList<string> s, int col, out IList<int> rowsWithOnes, out IList<int> rowsWithZeros)
+        private static BitArray GetRowsWithZerosAndOnes(IReadOnlyList<string> s, int col, out int numOnes, out int numZeros)
         {
-            rowsWithOnes  = new List<int>();
-            rowsWithZeros = new List<int>();
+            var mask  = new BitArray(s.Count);
+            numOnes = 0;
+            numZeros = 0;
+            
             for (var row = 0; row < s.Count; row++)
             {
                 if (s[row][col] == '1')
                 {
-                    rowsWithOnes = rowsWithOnes.Append(row).ToList();
+                    mask[row] = true;
+                    numOnes++;
                 }
                 else
                 {
-                    rowsWithZeros = rowsWithZeros.Append(row).ToList();
+                    mask[row] = false;
+                    numZeros++; 
                 }
             }
+
+            return mask;
         }
 
-        private static void RemoveRowsUsingIndexes(IList s, IList<int> indexes)
+        private static void RemoveRowsUsingIndexes(IList s, BitArray mask, bool valuesToRemove)
         {
-            for (var i = indexes.Count - 1;  i >= 0;  i--)
+            for (var i = mask.Count - 1;  i >= 0;  i--)
             {
-                s.RemoveAt(indexes[i]);
+                if (mask[i] == valuesToRemove)
+                    s.RemoveAt(i);
             }
         }
 
