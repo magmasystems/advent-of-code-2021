@@ -28,7 +28,7 @@ namespace AdventOfCode2021
                 sGamma += ones >= numLines / 2 ? "1" : "0";
             }
 
-            var gamma = FromBinaryString(sGamma);
+            var gamma = sGamma.FromBinaryString();
             
             // numColumns^2 - 1 is the number you get if all columns were 1. If you take that and subtract the gamma, you get the epsilon.
             var epsilon = (int) Math.Pow(2, numColumns) - 1 - gamma;
@@ -49,7 +49,7 @@ namespace AdventOfCode2021
 
                 if (oxy.Count == 1)
                 {
-                    oxyRating = FromBinaryString(oxy[0]);
+                    oxyRating = oxy[0].FromBinaryString();
                     break;
                 }
             }
@@ -63,7 +63,7 @@ namespace AdventOfCode2021
 
                 if (co2.Count == 1)
                 {
-                    co2Rating = FromBinaryString(co2[0]);
+                    co2Rating = co2[0].FromBinaryString();
                     break;
                 }
             }
@@ -102,21 +102,6 @@ namespace AdventOfCode2021
                 if (mask[i] == valuesToRemove)
                     s.RemoveAt(i);
             }
-        }
-
-        private static int FromBinaryString(string s)
-        {
-            var n = 0;
-            var multiplier = (int) Math.Pow(2, s.Length-1);
-            
-            foreach (var c in s)
-            {
-                if (c == '1')
-                    n += multiplier;
-                multiplier >>= 1;
-            }
-
-            return n;
         }
     }
 }
