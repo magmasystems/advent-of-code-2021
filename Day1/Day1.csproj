@@ -15,4 +15,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AdventOfCode.Utils\AdventOfCode.Utils.csproj" />
+    </ItemGroup>
+
 </Project>
