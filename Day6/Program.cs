@@ -41,7 +41,9 @@ namespace AdventOfCode2021
                     sum += value;
                 }
 
-                Console.WriteLine($"Part {2}: After {NUMDAYS[part]} days, there are {sum} fish");
+                // Part 2: After 80 days, there are 394994 fish
+                // Part 2: After 256 days, there are 1765974267455 fish
+                Console.WriteLine($"Part {part+1}: After {NUMDAYS[part]} days, there are {sum} fish");
             }
             
             #if PART1_IS_OK_BUT_NOT_OPTIMAL
