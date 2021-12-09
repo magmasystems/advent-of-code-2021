@@ -1,6 +1,4 @@
 ﻿// ReSharper disable once CheckNamespace
-
-using System.Collections;
 using System.Drawing;
 
 namespace AdventOfCode2021
@@ -59,7 +57,7 @@ namespace AdventOfCode2021
             // Part 2
             var basinSizes = (from r in riskLevels 
                 let visited = new bool[numRows, numCols] 
-                select GetBasinSize(heightmap, r.Level, r.Coordinate.X, r.Coordinate.Y, r.Coordinate.X, r.Coordinate.Y, visited)).ToList();
+                select GetBasinSize(heightmap, r.Coordinate.X, r.Coordinate.Y, visited)).ToList();
 
             basinSizes.Sort();
             var last3BasinSizes = basinSizes.Skip(basinSizes.Count - 3).ToArray();
@@ -69,7 +67,7 @@ namespace AdventOfCode2021
             
         }
 
-        private static int GetBasinSize(int[,] heightmap, int level, int x, int y, int origX, int origY, bool[,] visited)
+        private static int GetBasinSize(int[,] heightmap, int x, int y, bool[,] visited)
         {
             // Check for out-of-bounds
             if (x < 0 || x >= heightmap.GetLength(1) || y < 0 || y >= heightmap.GetLength(0))
@@ -81,25 +79,17 @@ namespace AdventOfCode2021
 
             // Mark the cell as visited
             visited[y,x] = true;
-            var value = heightmap[y, x];
-            
-            // Console.WriteLine($"level {level}, value {value}, y/x {y}/{x}, origin {origY}/{origX}");
-            
+
             // According to the rules, ignore cells with the value 9
-            if (value == 9)
-                return 0;
-            
-            // If we are not at the origin, and the value of the cell is lower or equal to the level, then it's not part of the basin
-            var isOrigin = x == origX && y == origY;
-            if (!isOrigin && value <= level)
+            if (heightmap[y, x] == 9)
                 return 0;
 
             // Check all of the surrounding cells
             var total = 1;
-            total += GetBasinSize(heightmap, level, x-1, y, origX, origY, visited);
-            total += GetBasinSize(heightmap, level, x+1, y, origX, origY, visited);
-            total += GetBasinSize(heightmap, level, x, y-1, origX, origY, visited);
-            total += GetBasinSize(heightmap, level, x, y+1, origX, origY, visited);
+            total += GetBasinSize(heightmap, x-1, y, visited);
+            total += GetBasinSize(heightmap, x+1, y, visited);
+            total += GetBasinSize(heightmap, x, y-1, visited);
+            total += GetBasinSize(heightmap, x, y+1, visited);
 
             return total;
         }
