@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 // ReSharper disable once CheckNamespace
 namespace AdventOfCode2021
@@ -29,7 +25,7 @@ namespace AdventOfCode2021
                 }
             }
 
-            // The sum of digits shoul dbe 514
+            // The sum of digits should be 514
             Console.WriteLine($"Sum is {sumOfDigitsWithUniqueNumberOfSegments}");
             
             // PART 2 
