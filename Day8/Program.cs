@@ -37,13 +37,13 @@ namespace AdventOfCode2021
                 if (!match.Success)
                     continue;
 
-                ushort[] DigitMask = new ushort[10];
+                var DigitMask = new ushort[10];
                 var _23or5 = new List<ushort>(3);
                 var _06or9 = new List<ushort>(3);
 
                 for (var i = 0; i < 10; i++)
                 {
-                    string pulse = match.Groups["pulse"].Captures[i].Value;
+                    var pulse = match.Groups["pulse"].Captures[i].Value;
                     // Turn the string into a 7-bit bitmask, from 'a' to 'g'
                     var mask = SegmentStringToMask(pulse);
                     switch (pulse.Length)
