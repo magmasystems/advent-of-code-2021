@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace AdventOfCode2021
+﻿namespace AdventOfCode2021
 {
     internal static class Program
     {
@@ -21,9 +19,8 @@ namespace AdventOfCode2021
             var points = 0;
             var incompleteStacks = new List<Stack<char>>();
 
-            for (var index = 0; index < input.Length; index++)
+            foreach (var line in input)
             {
-                var line = input[index];
                 var stack = new Stack<char>();
                 var firstCount = 0;
 
