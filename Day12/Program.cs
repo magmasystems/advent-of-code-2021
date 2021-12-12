@@ -8,16 +8,14 @@
         private class NodeInfo
         {
             public string Name { get; }
-            public bool IsSmall { get; }
             public int Index { get; }
             private static int Counter;
-
+            public bool IsSmall => Name[0] >= 'a' && Name[0] <= 'z';
             public readonly List<NodeInfo> Adjacent = new();
 
             public NodeInfo(string name)
             {
                 this.Name = name;
-                this.IsSmall = name[0] >= 'a' && name[0] <= 'z';
                 this.Index = Counter++;
             }
         }
@@ -34,22 +32,7 @@
 
         private static void Main(string[] args)
         {
-            var input = File.ReadAllLines(args.Length > 0 ? args[0] : "Input.txt");
-            foreach (var line in input)
-            {
-                var parts = line.Split('-');
-                if (!Nodes.ContainsKey(parts[0]))
-                {
-                    Nodes.Add(parts[0], new NodeInfo(parts[0]));
-                }
-                if (!Nodes.ContainsKey(parts[1]))
-                {
-                    Nodes.Add(parts[1], new NodeInfo(parts[1]));
-                }
-                Nodes[parts[0]].Adjacent.Add(Nodes[parts[1]]);
-                if (Nodes[parts[0]].Index != START && Nodes[parts[1]].Index != END)
-                    Nodes[parts[1]].Adjacent.Add(Nodes[parts[0]]);
-            }
+            BuildAdjacencyList(args);
 
             for (Part = 1; Part <= 2; Part++)
             {
@@ -62,23 +45,42 @@
                 // Part 1 should be 5457
                 // Part 2 should be 128506
                 Console.WriteLine($"Part {Part}: The number of paths is {FoundPaths.Count}");
-                
                 FoundPaths.Clear();
+            }
+        }
+
+        private static void BuildAdjacencyList(string[] args)
+        {
+            var input = File.ReadAllLines(args.Length > 0 ? args[0] : "Input.txt");
+            foreach (var line in input)
+            {
+                var parts = line.Split('-');
+                if (!Nodes.ContainsKey(parts[0]))
+                {
+                    Nodes[parts[0]] = new NodeInfo(parts[0]);
+                }
+
+                if (!Nodes.ContainsKey(parts[1]))
+                {
+                    Nodes[parts[1]] = new NodeInfo(parts[1]);
+                }
+
+                Nodes[parts[0]].Adjacent.Add(Nodes[parts[1]]);
+                Nodes[parts[1]].Adjacent.Add(Nodes[parts[0]]);
             }
         }
 
         private static void FindPaths(NodeInfo node, int[] visited, string path)
         {
-            if (node.Index == END)
+            switch (node.Index)
             {
-                path += $",{node.Name}";
-                // Console.WriteLine($"{path}");
-                FoundPaths.Add(path);
-                return;
+                case END:
+                    path += $",{node.Name}";
+                    FoundPaths.Add(path);
+                    return;
+                case START:
+                    return;
             }
-
-            if (node.Index == START)
-                return;
 
             switch (Part)
             {
