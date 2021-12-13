@@ -39,6 +39,7 @@
                     else
                         xMax = number-1;
 
+                    // Should be 693
                     Console.WriteLine($"The number of hashes is {matrix.Sum(yMax, xMax)}");  // For Part 1, only consider the 1st fold
                     // matrix.Dump(yMax, xMax);
                 }
@@ -50,6 +51,15 @@
                     matrix[y, x] = 1;
                 }
             }
+
+            // Should be UCLZRAZU
+            //
+            // X  X    XX    X      XXXX   XXX     XX    XXXX   X  X 
+            // X  X   X  X   X         X   X  X   X  X      X   X  X 
+            // X  X   X      X        X    X  X   X  X     X    X  X 
+            // X  X   X      X       X     XXX    XXXX    X     X  X 
+            // X  X   X  X   X      X      X X    X  X   X      X  X 
+            //  XX     XX    XXXX   XXXX   X  X   X  X   XXXX    XX  
 
             matrix.Dump(yMax, xMax);
         }
