@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace AdventOfCode2021
+﻿namespace AdventOfCode2021
 {
     internal static class Program
     {
@@ -41,7 +39,7 @@ namespace AdventOfCode2021
                     else
                         xMax = number-1;
 
-                    Console.WriteLine($"The number of hashes is {matrix.Sum(yMax, xMax)}");;  // For Part 1, only consider the 1st fold
+                    Console.WriteLine($"The number of hashes is {matrix.Sum(yMax, xMax)}");  // For Part 1, only consider the 1st fold
                     // matrix.Dump(yMax, xMax);
                 }
                 else
@@ -68,9 +66,7 @@ namespace AdventOfCode2021
         {
             var pointer1 = midPoint-1;
             var pointer2 = midPoint+1;
-            
-            var max = foldUp ? yMax : xMax;
-            
+
             while (true)
             {
                 if (foldUp)
